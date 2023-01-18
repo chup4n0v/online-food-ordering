@@ -1,0 +1,314 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>
+        {%block title%}{%endblock%}
+    </title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/searchbar.css' %}">
+    {%block cartstyle%}
+    {%endblock%}
+
+    {%block dinein_style %}
+    {%endblock%}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha512-f0tzWhCwVFS3WeYaofoLWkTP62ObhewQ1EZn65oSYDZUg1+CyywGKkWzm8BxaJj5HGKI72PnMH9jYyIFz+GH7g==" crossorigin="anonymous" />
+    
+    {% block blogstyle %}
+    {% endblock %}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <link rel="shortcut icon" type="image/png" href="{% static 'icons/logo.svg' %}"/>
+
+</head>
+
+<body>
+    <input type="text" value={{user}} id="user" hidden >
+    <div class="main-wrapper">
+        <div class="nav-background">
+            <div class="mobile-logo">
+                <img style="width: 150px; height: 30px" src="{% static 'icons/logo.png' %}" alt="">
+            </div>
+            <div class="mobile-nav">
+                <div class="cart">
+                    {%if not user.is_authenticated%}
+                    <div class="flex items-center"  >
+                        <a href="{%url 'cart' %}">
+                        <img src="{% static 'icons/cart-dark.svg' %}" alt="">
+                        </a>
+                        <a href="{%url 'cart' %}">
+                            <span id=cartvalue>
+                                0
+                            </span>продуктов в корзине</a>
+                    </div>
+                    {%else%}
+
+                    <div class="flex items-center"  >
+                        <a href="{%url 'cart' %}">
+                        <img src="{% static 'icons/cart-dark.svg' %}" alt="">
+                        </a>
+                        <a href="{%url 'cart' %}">
+                            <span id=cartvalue>
+                                {{items}}
+                            </span> Продуктов в корзине</a>
+                    </div>
+                    {%endif%}
+                </div>
+                <div class="nav-top">
+                    <ul>
+                        <li>
+                            <a href="/">Главная</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'about' %}">О нас</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'all-food' %}
+                            ">Продукты</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'bloglist' %}">Блог</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/#our-services">Услуги</a>
+                        </li>
+                        <li>
+                            <a href="/#contact-us">Контакты</a>
+                        </li>
+                       {% if user.is_authenticated%}
+                       <li>{{user.first_name}}</li>
+                       <li>
+                        <a href="{%url 'createuser:logout' %}">Выйти</a>
+                       </li>
+                       {%else%}
+                       <li>
+                        <a href="{%url 'createuser:login' %}">Войти</a>
+                    </li>
+                    <li>
+                        <a href="{%url 'createuser:register' %}">Register</a>
+                    </li>
+                       {%endif %}
+                    </ul>
+                </div>
+                <div class="contact flex items-center">
+                    <img src="{% static 'icons/phone-1.svg' %}" alt="">
+                    <div>
+                        <h5 ><a href="tel:(+91)7620988848">
+                            
+                            звонить: (+91)7620988848</a></h5>
+                        <h6>E-mail : support@freshmeal.com</h6>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <div class="site-content-wrapper">
+            <div class="nav-trigger">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="feather feather-bar-chart">
+                    <line x1="12" y1="20" x2="12" y2="10" />
+                    <line x1="18" y1="20" x2="18" y2="4" />
+                    <line x1="6" y1="20" x2="6" y2="16" /></svg>
+            </div>
+            <div class="site-content">
+                <header class="topbar">
+                    <div class="container flex justify-between items-center">
+                        <div class="icons">
+                            <a href="#"><img src="{% static 'icons/facebook.svg' %}" alt=""></a>
+                            <a href="#"><img src="{% static 'icons/twitter.svg' %}" alt=""></a>
+                            <a href="#"><img src="{% static 'icons/google.svg' %}" alt=""></a>
+                            <a href="#"><img src="{% static 'icons/instagram.svg' %}" alt=""></a>
+                            <!-- <a href="#"><img src="{% static 'icons/search.svg' %}" alt=""></a> -->
+                        </div>
+                        <div class="auth flex items-center">
+                            {% if user.is_authenticated%}
+                            <div>
+                                <img src="{% static 'icons/user-icon.svg' %}" alt="">
+                                {{user.first_name}}
+                            </div>
+                            <span class="divider">|</span>
+                            <div>
+                        <a href="{%url 'createuser:logout' %}">Выйти</a>
+                            </div>
+                       {%else%}
+            
+                       
+                            <div>
+                                <img src="{% static 'icons/user-icon.svg' %}" alt="">
+                                <a href="{%url 'createuser:login' %}">Войти</a>
+                            </div>
+                            <span class="divider">|</span>
+                            <div>
+                                <img src="{% static 'icons/edit.svg' %}" alt="">
+                                <a href="{%url 'createuser:register' %}">Зарегестрироваться</a>
+                            </div>
+                            {%endif %}
+
+
+                            <span class="divider">|</span>
+                            <div>
+                                
+                                {%if not user.is_authenticated%}
+                    <div class="flex items-center"  >
+                        <a href="{%url 'cart' %}">
+                        <img src="{% static 'icons/cart-2.svg' %}" alt="">
+                        </a>
+                        <a href="{%url 'cart' %}">
+                            <span id=cartvalue1>
+                                0
+                            </span>продуктов в корзине</a>
+                    </div>
+                    {%else%}
+
+                    <div class="flex items-center"  >
+                        <a href="{%url 'cart' %}">
+                        <img src="{% static 'icons/cart-2.svg' %}" alt="">
+                        </a>
+                        <a href="{%url 'cart' %}">
+                            <span id=cartvalue1>
+                                {{items}}
+                            </span> продуктов в корзине</a>
+                    </div>
+                    {%endif%}
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+                <nav>
+                    <div class="top">
+                        <div class="container flex justify-between">
+                            <div class="branding">
+                                <img style="width: 240px; height: 42px;" src="{% static 'icons/logo.png' %}" alt="">
+                            </div>
+                            <div class="contact flex items-center">
+                                <img src="{% static 'icons/phone-1.svg' %}" alt="">
+                                <div>
+                                    <h5 ><a href="tel:(+91)7620988848">
+                                        Позвонить: +998(91)557-66-77</a></h5>
+                                    <h6>E-mail : deliveryproduct@gmail.com</h6>
+                                </div>
+                            </div>
+                            <!-- <div class="time flex items-center">
+                                <img src="{% static 'icons/clock.svg' %}" alt="">
+                                <div>
+                                    <h5>Working Hours:</h5>
+                                    <h6>Mon - Sat (8.00am - 12.00am)</h6>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                    <div class="navbar magic-shadow">
+                        <div class="container flex justify-center topnav">
+                            <a href="/" {%block activeclass_home%}{%endblock%} >Главная</a>
+                            <a href="{% url 'about' %}" {%block activeclass_about%}{%endblock%}>О нас</a>
+                            <a href="{% url 'all-food' %}
+                            " {%block activeclass_prod%}{%endblock%}>Продукты</a>
+                            <a href="{% url 'bloglist' %}" {%block activeclass_blog%}{%endblock%}>Блог</a>
+                           
+                            <a href="/#our-services">Услуги</a>
+                           
+                            <a href="/#contact-us">Контакты</a>
+                            <div class="search-container">
+                                <form action="{%url 'search' %}">
+                                  <input type="text" placeholder="Поиск.." name="search">
+                                  <button type="submit"><i class="fa fa-search"></i></button>
+                                </form>
+                              </div>
+                        </div>
+                    </div>
+                </nav>
+
+                {% block content %}
+                {% endblock %}
+
+
+                
+                <footer>
+                    <div class="container">
+                        <div class="box">
+                            <h3>О нас</h3>
+                            <p>Узнайте все подробности о нашем сервисе.</p>
+                                <a href="{% url 'about' %}">
+
+                                    <button class="btn btn-secondary">Читать</button>
+                                </a>
+                        </div>
+                        <div class="box">
+                            <h3>Быстрые ссылки</h3>
+                            <ul>
+                                <li>
+                                    <a href="/">Главная</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'about' %}">О нас</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'all-food' %}">Продукты</a>
+                                </li>
+                                <li>
+                                    <a href="/#our-services">Услуги</a>
+                                </li>
+                                
+                                <li>
+                                    <a href="/#contact-us">Контакты</a>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <div class="box">
+                            <h3>Наши социальные сети</h3>
+                            <div>
+                                <ul>
+                                    <li>
+                                        <a href="#">
+                                            <img src="{% static 'icons/facebook.svg' %}" alt="">
+                                            <span>Facebook</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <img src="{% static 'icons/twitter.svg' %}" alt="">
+                                            <span>Twitter</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <img src="{% static 'icons/instagram.svg' %}" alt="">
+                                            <span>Instagram</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script src="{% static 'js/app.js' %}"></script>
+    {% if user.is_authenticated %}
+    <script src="{% static 'js/updatecart.js' %}"></script>
+    {%endif%}
+</body>
+
+</html>

@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+{%load static%}
+
+{%block title%}
+Cart page
+
+{%endblock%}
+
+{%block cartstyle%}
+<link rel="stylesheet" href="{%static 'css/cart.css'%} ">
+{%endblock%}
+
+
+{%block content%}
+	<center style="margin: 20px;margin-bottom: 40px;"><h1 class="section-heading">Корзина</h1></center>
+	
+
+
+  
+
+
+  
+  <div class="shopping-cart" style="margin:20px 50px;">
+    
+    {%if not cart%}
+    <div >
+      <center>
+  
+        <h1>ваша корзина пуста, нажмите на кнопку ниже, чтобы заказать продукты</h1>
+        <button  class="go_product" >Получите ваш любимый продукт</button>
+      </center>
+      </div>
+    {%else%}
+
+
+
+		
+		<div class="column-labels">
+			<label class="product-image">Картина</label>
+			<label class="product-details">Продуктt</label>
+			<label class="product-price">Цена</label>
+			<label class="product-quantity">Количество</label>
+			<label class="product-removal">Удалить</label>
+			<label class="product-line-price">Итог</label>
+		</div>
+    
+    
+   
+		{%for i in cart%}
+		<div class="product">
+			<div class="product-image">
+				<img src={{i.pimage.url}}>
+			</div>
+			<div class="product-details">
+				<div class="product-title">{{i.pname}} </div>
+				<!-- <p class="product-description">The best dog bones of all time. Holy crap. Your dog will be begging for these things! I got curious once and ate one myself. I'm a fan.</p> -->
+			</div>
+			<div class="product-price">{{i.price}} </div>
+			<div class="product-quantity">
+				<input type="number" value="1" min="1">
+			</div>
+			<div class="product-removal">
+				<button class="remove-product" id={{i.id}}>
+					Удалить
+				</button>
+			</div>
+			<div class="product-line-price">{{i.price}} </div>
+		</div>
+		{%endfor%}
+    
+    
+    {%endif%}
+		
+  <div class="totals">
+    <div class="totals-item">
+      <label>Промежуточный итог</label>
+      <div class="totals-value" id="cart-subtotal"></div>
+    </div>
+    <!-- <div class="totals-item"> -->
+      <!-- <label>Налог (5%)</label> -->
+      <!-- <div class="totals-value" id="cart-tax"></div> -->
+    <!-- </div> -->
+    <div class="totals-item">
+      <label>Доставка</label>
+      <div class="totals-value" id="cart-shipping">10 000</div>
+    </div>
+    <div class="totals-item totals-item-total">
+      <label>Общая сумма</label>
+      <div class="totals-value" id="cart-total"></div>
+    </div>
+  </div>
+      
+      <button class="checkout">Заказать</button>
+
+</div>
+
+
+
+<script>
+    /* Set rates + misc */
+// var taxRate = 0.05;
+var shippingRate = 15000.00; 
+var fadeTime = 300;
+
+$(document).ready(function(){
+  recalculateCart()
+});
+
+
+
+/* Assign actions */
+$('.product-quantity input').change( function() {
+  updateQuantity(this);
+});
+
+$('.product-removal button').click( function() {
+  removeItem(this);
+});
+
+
+
+/* Recalculate cart */
+function recalculateCart()
+{
+  var subtotal = 0;
+  
+  /* Sum up row totals */
+  $('.product').each(function () {
+    subtotal += parseFloat($(this).children('.product-line-price').text());
+  });
+  
+  /* Calculate totals */
+  // var tax = subtotal * taxRate;
+  var shipping = (subtotal > 0 ? shippingRate : 0);
+  var total = subtotal + shipping;
+  
+  /* Update totals display */
+  $('.totals-value').fadeOut(fadeTime, function() {
+    $('#cart-subtotal').html(subtotal.toFixed(2));
+    // $('#cart-tax').html(tax.toFixed(2));
+    $('#cart-shipping').html(shipping.toFixed(2));
+    $('#cart-total').html(total.toFixed(2));
+    if(total == 0){
+      $('.checkout').fadeOut(fadeTime);
+    }else{
+      $('.checkout').fadeIn(fadeTime);
+    }
+    $('.totals-value').fadeIn(fadeTime);
+  });
+}
+
+
+/* Update quantity */
+function updateQuantity(quantityInput)
+{
+  /* Calculate line price */
+  var productRow = $(quantityInput).parent().parent();
+  var price = parseFloat(productRow.children('.product-price').text());
+  var quantity = $(quantityInput).val();
+  var linePrice = price * quantity;
+  
+  /* Update line price display and recalc cart totals */
+  productRow.children('.product-line-price').each(function () {
+    $(this).fadeOut(fadeTime, function() {
+      $(this).text(linePrice.toFixed(2));
+      recalculateCart();
+      $(this).fadeIn(fadeTime);
+    });
+  });  
+}
+
+
+/* Remove item from cart */
+function removeItem(removeButton)
+{
+  /* Remove row from DOM and recalc cart total */
+  var productRow = $(removeButton).parent().parent();
+  productRow.slideUp(fadeTime, function() {
+    productRow.remove();
+    recalculateCart();
+
+
+
+    
+  });
+}
+
+</script>
+
+{%endblock%}

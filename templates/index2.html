@@ -1,0 +1,324 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{%block title%}
+Home page
+
+{%endblock%}
+
+{%block activeclass_home%}
+
+class="active"
+{%endblock%}
+
+                {% block content %}
+                <header class="hero flex items-center">
+                    <div class="container">
+                        <h1>Доставка продуктов по всему Ургенчу</h1>
+                        <p>Быстро и удобно!</p>
+                        <div>
+                            <a href="{%url 'all-food'%}">
+
+                                <button class="btn btn-primary">Заказать</button>
+                            </a>
+                        </div>
+                       
+                    </div>
+                </header>
+
+                <section class="top-products">
+                    <div class="container">
+                        <h1 class="section-heading">Новинки</h1>
+                        <div class="slider">
+                            <button class="slider-btn prev-btn"><img src="{% static 'icons/pre.svg' %}" alt=""></button>
+                            <button class="slider-btn next-btn"><img src="{% static 'icons/next.svg' %}" alt=""></button>
+                            <div class="food-slider">
+                                {% for i in food %}
+                                <div class="food-card magic-shadow-sm">
+                                    <div class="product-image flex items-center justify-center">
+                                        <img src="{{i.pimage.url}}" alt="">
+                                    </div>
+                                    <hr>
+                                    <div>
+                                        <h2 class="text-center">{{i.pname}}</h2>
+                                        <div class="price text-center">
+                                            {{i.price}} Сум. 
+                                        </div>
+
+                                        
+                                        {%if not user.is_authenticated%}
+                                            <a href="{%url 'createuser:login' %}" style="text-decoration: none;">
+                                        <div class="flex justify-center">
+                                            <button value="submit" class="cartform" id="{{i.id}}">
+                                                <img src="{% static 'icons/cart-2.svg' %}" alt="">
+                                                <span >В корзину</span>
+                                            </button>
+                                        </div>
+                                    </a>
+                                            {%else%}
+                                            <div class="flex justify-center">
+
+                                            <button value="submit" class="cartform" id="{{i.id}}">
+
+                                            <img src="{% static 'icons/cart-2.svg' %}" alt="">
+                                            <span>В корзину</span>
+                                        </button>
+                                    </div>
+                                            {%endif%}
+                                        
+                                    </div>
+                                </div>
+                                {%endfor%}
+                               
+                               
+                                
+                                
+                            </div>
+                        </div>
+                        <div class="text-center btn-wrapper">
+                            <a href="{%url 'all-food'%}">   
+                                <button class="btn btn-secondary">Посмотреть все</button>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+                <section class="about-meal">
+                    <div class="container">
+                        <h1 class="section-heading">Акции</h1>
+                        <div class="about-meal-wrap flex">
+                            <div class="flex-1">
+                                <img src="{% static 'images/yogurt.png' %}" alt="">
+                            </div>
+                            <div class="flex-1">
+                                <h2>Клубничный десерт</h2>
+                                <p>Клубника - первая садовая ягода, которая появляется весной на прилавках. Конечно, полезнее всего есть ее свежей и без сахара. Полезнее - да. Но не вкуснее. Клубника идеально подходит для всевозможных десертов и пирогов: вкус у нее яркий, свежий, запах - ни с чем не сравнить.
+                                    </p>
+                                    <a href="{% url 'about' %}">
+
+                                        <button class="btn btn-secondary">Подробнее</button>
+                                    </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="top-products">
+                    <div class="container">
+                        <h1 class="section-heading">Популярные продукты</h1>
+                        <div class="slider">
+                            <button class="slider-btn prev-btn"><img src="{% static 'icons/pre.svg' %}" alt=""></button>
+                            <button class="slider-btn next-btn"><img src="{% static 'icons/next.svg' %}" alt=""></button>
+                            <div class="food-slider">
+                                {% for i in food %}
+                                <div class="food-card magic-shadow-sm">
+                                    <div class="product-image flex items-center justify-center">
+                                        <img src="{{i.pimage.url}}" alt="">
+                                    </div>
+                                    <hr>
+                                    <div>
+                                        <h2 class="text-center">{{i.pname}}</h2>
+                                        <div class="price text-center">
+                                            {{i.price}} Сум. 
+                                        </div>
+                                        {%if not user.is_authenticated%}
+                                            <a href="{%url 'createuser:login' %}" style="text-decoration: none;">
+                                        <div class="flex justify-center">
+                                            <button value="submit" class="cartform" id="{{i.id}}">
+                                                <img src="{% static 'icons/cart-2.svg' %}" alt="">
+                                                <span >В корзину</span>
+                                            </button>
+                                        </div>
+                                    </a>
+                                            {%else%}
+                                            <div class="flex justify-center">
+
+                                            <button value="submit" class="cartform" id="{{i.id}}">
+
+                                            <img src="{% static 'icons/cart-2.svg' %}" alt="">
+                                            <span>В корзину</span>
+                                        </button>
+                                    </div>
+                                            {%endif%}
+                                    </div>
+                                </div>
+                                {%endfor%}
+                                
+                                
+                                
+                            </div>
+                        </div>
+                        <div class="text-center btn-wrapper">
+                            <a href="{%url 'all-food'%}">   
+                                <button class="btn btn-secondary">Посмотреть все</button>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+                <section class="our-services">
+                    <div class="container">
+                        <h1 class="section-heading" id="our-services">Наши услуги</h1>
+                        <div class="card-wrapper flex">
+                            <div class="service-card magic-shadow-sm">
+                                <img class="icon" src="{% static 'icons/transport.svg' %}" alt="">
+                                <h2>Бесплатная доставка домой</h2>
+                                <p>Бесплатная доставка при заказе продуктов на сумму от 100 000 сум.</p>
+                            </div>
+                            <div class="service-card magic-shadow-sm">
+                                <img class="icon" src="{% static 'icons/bag.svg' %}" alt="">
+                                <h2 class="text-primary">Возврат товара</h2>
+                                <p>Верните некачественный товар в течении 7 дней после приобретения.</p>
+                            </div>
+                            <div class="service-card magic-shadow-sm">
+                                <img class="icon" src="{% static 'icons/usd.svg' %}" alt="">
+                                <h2>Гарантия возврата денег</h2>
+                                <p>Гарантированно вернем ваши деньги после возврата товара.</p>
+                                <!-- <button class="btn btn-secondary">Читать</button> -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="latest-news">
+                    <div class="container">
+                        <h1 class="section-heading">Блог</h1>
+                        <div class="article-wrapper">
+                            {%for i in blogs%}
+                            <a href="{%url 'singleblog' i.id %}" style="text-decoration: none;">
+                            <article class="card magic-shadow-sm">
+                                <div>
+                                    <img src="{{i.image.url}}" style="height: 350px; width: 600px;" alt="">
+                                </div>
+                                <div class="card-content">
+                                    <div class="post-meta flex items-center justify-between">
+                                        <span>{{i.created_date}}</span>
+                                    </div>
+
+                                    <h2>{{i.title}}</h2>
+                                    <p>{{i.content |truncatechars:150}}  </p>
+                                </div>
+                            </article>
+                        </a>
+                            {%endfor%}
+
+
+
+
+                            
+                        </div>
+                        <div class="text-center btn-wrapper">
+                            <a href="{% url 'bloglist' %}">
+
+                                <button class="btn btn-secondary">Посмотреть все</button>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+                <center>
+                <section class="subscribe">
+                    <div class="container flex items-center">
+                        <div>
+                            <img src="{% static 'images/rasberry.png' %}" alt="">
+                        </div>
+                        <div>
+                            <h1>Подпишитесь на нашу рассылку</h1>
+                            <p>Узнавайте быстрее всех о новинках и акциях с помощью нашей рассылки. Для этого просто введите ваш адрес электронной почты и получайте рассылки</p>
+                            <div class="input-wrap">
+                                <div id="input-wrapinner">
+
+                                    <input id="email" type="email" placeholder="email@dostavochka.com">
+                                    <button  id="sub_click">Подписаться</button>
+                                </div>
+                                
+
+                                <h2 id="subscribed" hidden 
+                                style=" padding:0.8rem 2rem;
+                                background:var(--primary);
+                                color:var(--pure);
+                                border-radius: 4px;
+                                -webkit-border-radius: 4px;
+                                -moz-border-radius: 4px;
+                                -ms-border-radius: 4px;
+                                -o-border-radius: 4px;  
+                                font-size:1rem;
+                                height: 100%;width: 100%;
+                                margin: 4px;
+                                ">Подписаться</h2>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </center>
+
+                <section class="contact-us flex">
+                    <div class="contact-info-wrapper">
+                        <h1 class="section-heading " id="contact-us">Наши контакты</h1>
+                        <div class="contact-info">
+                            <div>
+                                <div>
+                                    <img src="{% static 'icons/phone-1.svg' %}" alt="">
+                                    <div>
+                                        <span>Номер:</span>
+                                        <span>(+91) 7620988848</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <img src="{% static 'icons/ph_envelope-simple-bold.svg' %}" alt="">
+                                    <div>
+                                        <span>E-mail :</span>
+                                        <span>support@dostavochka.com</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <script>
+                    document.getElementById("subscribed").style.display = "none";
+                    
+var searchRequest = null;
+		  email=document.getElementById('email').value
+		console.log(email)
+
+$(function () {
+    var searchRequest = null;
+
+    $("#sub_click").click(function () {
+        email=document.getElementById('email').value
+		console.log(email)
+        
+
+            if (searchRequest != null) 
+                searchRequest.abort();
+               
+
+            searchRequest = $.ajax({
+                type: "GET",
+                url: "{%url 'subscribe'%}",
+                data: {
+                    'email' : email
+                },
+                dataType: "text",
+                success: function(msg){
+                    var obj = JSON.parse(msg);
+                    console.log(obj.massege)
+                    
+                    
+                    if (obj.massege== 'subscribed'){
+                        document.getElementById('input-wrapinner').style.display = "none";
+                        document.getElementById("subscribed").style.display = "inline";
+
+                    }
+                    else{
+                        console.error(obj.massege,'else')
+                    }
+                    
+                   
+                }
+            });
+        
+    });
+});
+                </script>
+                {%endblock%}
+<!-- footer--------------------- -->
+               
+

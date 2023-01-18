@@ -1,0 +1,40 @@
+{%load static%}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/createuser/login.css' %}">
+
+  <title>Войти</title>
+</head>
+<style>
+
+</style>
+<body>
+  <div class='bold-line'></div>
+<div class='container'>
+  <div class='window'>
+    <div class='overlay'></div>
+    <div class='content'>
+      <div class='welcome'>Войти!</div>
+      <div class='subtitle'>Введите ваш email и пароль для того, чтобы войти в свой аккаунт.</div>
+      <form action="" method="POST">
+        <div class='input-fields'>
+          {%csrf_token%}
+          <!-- <input type='text' placeholder='Username' class='input-line full-width'></input> -->
+          <input type='email' name="email" placeholder='Email' class='input-line full-width'></input>
+          <input type='password' name="password" placeholder='Пароль' class='input-line full-width'></input>
+  
+        </div>
+        <div><button type="submit" class='ghost-round full-width'>Войти</button></div>
+      </form>
+      <div class='spacing'><a href="{%url 'createuser:register'%}">создать новый аккаунт? </a> </div>
+    </div>
+  </div>
+</div>
+  
+</body>
+</html>
+
